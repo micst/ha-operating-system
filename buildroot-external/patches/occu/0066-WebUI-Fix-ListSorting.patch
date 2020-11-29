@@ -1,0 +1,24 @@
+--- occu/WebUI/www/webui/webui.js.orig
++++ occu/WebUI/www/webui/webui.js
+@@ -11491,9 +11491,7 @@
+       //channels         : this.filter(this.channels)
+     });
+ 
+-    if (! userIsNoExpert) {
+-      jQuery(".j_expertChannel").show();
+-    }
++    jQuery(".j_expertChannel").show();
+ 
+     translateJSTemplate("#ChannelChooserDialog");
+     translatePage(".j_rooms, .j_functions");
+@@ -11808,9 +11806,7 @@
+       //channels         : this.filter(this.channels)
+     });
+ 
+-    if (! userIsNoExpert) {
+-      jQuery(".j_expertChannel").show();
+-    }
++    jQuery(".j_expertChannel").show();
+ 
+     translateJSTemplate("#MultiChannelChooserDialog");
+     translatePage(".MultiChannelChooserRow");

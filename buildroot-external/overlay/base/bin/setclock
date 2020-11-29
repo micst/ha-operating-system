@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# this is a simple wrapper script that will restart the
+# NTP daemon
+/etc/init.d/S49chrony restart

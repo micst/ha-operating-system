@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# start script to setup the board leds correctly once the
+# system finished booting
+#
+
+start() {
+  echo -n "Setup onboard LEDs: "
+
+  # source all data from /var/hm_mode
+  [[ -r /var/hm_mode ]] && . /var/hm_mode
+
+  # start is finished lets set the LEDs
+  if [[ -f "${HM_LED_GREEN}/trigger" ]]; then
+    echo ${HM_LED_GREEN_MODE2} >${HM_LED_GREEN}/trigger
+  fi
+  if [[ -f "${HM_LED_RED}/trigger" ]]; then
+    echo ${HM_LED_RED_MODE2} >${HM_LED_RED}/trigger
+  fi
+  if [[ -f "${HM_LED_YELLOW}/trigger" ]]; then
+    echo ${HM_LED_YELLOW_MODE2} >${HM_LED_YELLOW}/trigger
+  fi
+
+  # signal that the system startup is finished
+  touch /var/status/startupFinished
+
+  echo "booted, OK"
+}
+
+restart() {
+  stop
+  start
+}
+
+stop() {
+  echo -n "Setup onboard LEDs: "
+
+  # source all data from /var/hm_mode
+  [[ -r /var/hm_mode ]] && . /var/hm_mode
+
+  # stop starts, lets set the LEDs
+  if [[ -f "${HM_LED_GREEN}/trigger" ]]; then
+    echo ${HM_LED_GREEN_MODE1} >${HM_LED_GREEN}/trigger
+  fi
+  if [[ -f "${HM_LED_RED}/trigger" ]]; then
+    echo ${HM_LED_RED_MODE1} >${HM_LED_RED}/trigger
+  fi
+  if [[ -f "${HM_LED_YELLOW}/trigger" ]]; then
+    echo ${HM_LED_YELLOW_MODE1} >${HM_LED_YELLOW}/trigger
+  fi
+
+  echo "shutdown, OK"
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  restart|reload)
+    restart
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?

@@ -1,0 +1,6 @@
+config BR2_PACKAGE_SUSVD
+	bool "S.USV UPS Daemon Support"
+	help
+	  Adds support for S.USV UPS Support Daemon
+
+	  http://s-usv.de/

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-QEMU_GUEST_AGENT_VERSION = 4.2.0
+QEMU_GUEST_AGENT_VERSION = 3.1.1.1
 QEMU_GUEST_AGENT_SOURCE = qemu-$(QEMU_GUEST_AGENT_VERSION).tar.xz
 QEMU_GUEST_AGENT_SITE = http://download.qemu.org
 QEMU_GUEST_AGENT_LICENSE = GPL-2.0, LGPL-2.1, MIT, BSD-3-Clause, BSD-2-Clause, Others/BSD-1c
@@ -13,13 +13,13 @@ QEMU_GUEST_AGENT_LICENSE_FILES = COPYING COPYING.LIB
 #       the non-(L)GPL license texts are specified in the affected
 #       individual source files.
 
-QEMU_GUEST_AGENT_DEPENDENCIES = host-pkgconf libglib2 zlib
+#QEMU_DEPENDENCIES = host-pkgconf libglib2 zlib pixman
 
 # Need the LIBS variable because librt and libm are
 # not automatically pulled. :-(
 QEMU_GUEST_AGENT_LIBS = -lrt -lm
 
-QEMU_GUEST_AGENT_OPTS = -lrt -lm
+#QEMU_OPTS =
 
 QEMU_GUEST_AGENT_VARS = LIBTOOL=$(HOST_DIR)/bin/libtool
 
@@ -53,59 +53,53 @@ define QEMU_GUEST_AGENT_CONFIGURE_CMDS
 			--disable-sdl \
 			--disable-system \
 			--disable-user \
+			--disable-guest-agent \
 			--disable-nettle \
 			--disable-gcrypt \
-			--disable-curses \
-			--disable-vnc \
-			--disable-virtfs \
-			--disable-brlapi \
-			--disable-fdt \
-			--disable-bluez \
-			--disable-kvm \
-			--disable-rdma \
-			--disable-vde \
-			--disable-netmap \
-			--disable-cap-ng \
-			--disable-attr \
-			--disable-vhost-net \
-			--disable-spice \
-			--disable-rbd \
-			--disable-libiscsi \
-			--disable-libnfs \
-			--disable-smartcard \
-			--disable-libusb \
-			--disable-usb-redir \
-			--disable-lzo \
-			--disable-snappy \
-			--disable-bzip2 \
-			--disable-seccomp \
-			--disable-coroutine-pool \
-			--disable-glusterfs \
-			--disable-tpm \
-			--disable-numa \
-			--disable-blobs \
-			--disable-capstone \
-			--disable-tools \
-			--disable-slirp \
-			--disable-tcg-interpreter \
-			--enable-guest-agent
+      --disable-curses \
+      --disable-vnc \
+      --disable-virtfs \
+      --disable-brlapi \
+      --disable-fdt \
+      --disable-bluez \
+      --disable-kvm \
+      --disable-rdma \
+      --disable-vde \
+      --disable-netmap \
+      --disable-cap-ng \
+      --disable-attr \
+      --disable-vhost-net \
+      --disable-spice \
+      --disable-rbd \
+      --disable-libiscsi \
+      --disable-libnfs \
+      --disable-smartcard \
+      --disable-libusb \
+      --disable-usb-redir \
+      --disable-lzo \
+      --disable-snappy \
+      --disable-bzip2 \
+      --disable-seccomp \
+      --disable-coroutine-pool \
+      --disable-glusterfs \
+      --disable-tpm \
+      --disable-numa \
+      --disable-blobs \
+      --disable-capstone \
+      --disable-tools \
+      --disable-tcg-interpreter \
+      --enable-guest-agent
 endef
 
 define QEMU_GUEST_AGENT_BUILD_CMDS
 	unset TARGET_DIR; \
-	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D) qemu-ga
+	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D)
 endef
 
 define QEMU_GUEST_AGENT_INSTALL_TARGET_CMDS
-	$(INSTALL) -m 755 $(@D)/qemu-ga $(TARGET_DIR)/usr/libexec/
-endef
-
-define QEMU_GUEST_AGENT_INSTALL_INIT_SYSTEMD
-	$(INSTALL) -D -m 644 $(QEMU_GUEST_AGENT_PKGDIR)/qemu-guest.service \
-		$(TARGET_DIR)/usr/lib/systemd/system/qemu-guest.service
-	$(INSTALL) -d $(TARGET_DIR)/etc/systemd/system/multi-user.target.wants
-	ln -fs /usr/lib/systemd/system/qemu-guest.service \
-		$(TARGET_DIR)/etc/systemd/system/multi-user.target.wants/qemu-guest.service
+	cp -a $(QEMU_GUEST_AGENT_PKGDIR)/rootfs-overlay/* $(TARGET_DIR)/
+	unset TARGET_DIR; \
+	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D) $(QEMU_GUEST_AGENT_MAKE_ENV) DESTDIR=$(TARGET_DIR) install
 endef
 
 $(eval $(generic-package))

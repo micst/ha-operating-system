@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# init script to start/stop the CloudMatic Addon
+#
+
+# source all data from /var/hm_mode
+[[ -r /var/hm_mode ]] && . /var/hm_mode
+
+# skip this startup if not in normal mode
+[[ "${HM_MODE}" != "NORMAL" ]] && exit 0
+
+# skip startup if cloudmatic isn't found/installed
+[[ -x /opt/mh/startup.sh ]] || exit 0
+
+start() {
+  echo -n "Starting CloudMatic: "
+
+  if [[ ! -e /etc/config/safemode ]]; then
+
+    # CloudMatic (meine-homematic.de) startup
+    /opt/mh/startup.sh 2>/dev/null >/dev/null
+
+    echo "OK"
+  else
+    echo "skipping (safemode)"
+  fi
+}
+
+restart() {
+  start
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    # nothing
+  ;;
+  restart|reload)
+    restart
+  ;;
+  *)
+    echo "Usage: $0 {start|restart}"
+    exit 1
+esac
+
+exit $?

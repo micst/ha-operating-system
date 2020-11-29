@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Starts eq3configcmd setlgwkey.
+#
+
+CFG_DIR=/etc/config
+
+[[ -r /var/hm_mode ]] && . /var/hm_mode
+
+# skip this startup if not in normal mode
+[[ "${HM_MODE}" != "NORMAL" ]] && exit 0
+
+start() {
+  echo -n "Setting LAN Gateway keys: "
+  /bin/setlgwkey.sh
+  echo "OK"
+}
+
+restart() {
+  start
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    # nothing
+  ;;
+  restart|reload)
+    restart
+  ;;
+  *)
+    echo "Usage: $0 {start|restart}"
+    exit 1
+esac
+
+exit $?

@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Start watchdog
+#
+
+[[ -c /dev/watchdog ]] || exit 0
+
+case "$1" in
+ start)
+	echo "Starting watchdog..."
+	/sbin/watchdog -T 300 -t 5 /dev/watchdog
+	;;
+  stop)
+	;;
+  restart|reload)
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
