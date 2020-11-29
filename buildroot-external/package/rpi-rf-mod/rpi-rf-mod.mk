@@ -5,7 +5,7 @@
 #############################################################
 
 RPI_RF_MOD_VERSION = 1.4.0
-RPI_RF_MOD_SITE = $(BR2_EXTERNAL_EQ3_PATH)/package/rpi-rf-mod
+RPI_RF_MOD_SITE = $(BR2_EXTERNAL_HASSOS_PATH)/package/rpi-rf-mod
 RPI_RF_MOD_SITE_METHOD = local
 
 define RPI_RF_MOD_BUILD_CMDS

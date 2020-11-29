@@ -4,7 +4,7 @@
 #
 #############################################################
 PIDESKTOPD_VERSION = 1.0
-PIDESKTOPD_SITE = $(BR2_EXTERNAL_EQ3_PATH)/package/pidesktopd
+PIDESKTOPD_SITE = $(BR2_EXTERNAL_HASSOS_PATH)/package/pidesktopd
 PIDESKTOPD_SITE_METHOD = local
 PIDESKTOPD_LICENSE = Apache-2.0
 

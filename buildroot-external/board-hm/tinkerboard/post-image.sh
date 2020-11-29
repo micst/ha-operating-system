@@ -19,6 +19,6 @@ mkfs.ext4 -d ${BUILD_DIR}/userfs -F -L userfs ${BINARIES_DIR}/userfs.ext4 3000
 cp ${TARGET_DIR}/boot/VERSION ${BINARIES_DIR}
 
 # create *.img file using genimage
-support/scripts/genimage.sh -c "${BR2_EXTERNAL_EQ3_PATH}/board/${BOARD_NAME}/genimage.cfg"
+support/scripts/genimage.sh -c "${BR2_EXTERNAL_HASSOS_PATH}/board/${BOARD_NAME}/genimage.cfg"
 
 exit $?

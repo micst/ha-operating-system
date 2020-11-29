@@ -6,6 +6,8 @@ source "$BR2_EXTERNAL_HASSOS_PATH/package/qemu-guest-agent/Config.in"
 source "$BR2_EXTERNAL_HASSOS_PATH/package/intel-e1000e/Config.in"
 source "$BR2_EXTERNAL_HASSOS_PATH/package/rpi-eeprom/Config.in"
 
+#BR2_EXTERNAL_EQ3_PATH
+
 source "$BR2_EXTERNAL_HASSOS_PATH/package/multilib32/Config.in"
 source "$BR2_EXTERNAL_HASSOS_PATH/package/recovery-system/Config.in"
 

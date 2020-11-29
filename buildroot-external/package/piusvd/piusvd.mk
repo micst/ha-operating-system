@@ -4,7 +4,7 @@
 #
 #############################################################
 PIUSVD_VERSION = 0.9
-PIUSVD_SITE = $(BR2_EXTERNAL_EQ3_PATH)/package/piusvd
+PIUSVD_SITE = $(BR2_EXTERNAL_HASSOS_PATH)/package/piusvd
 PIUSVD_SITE_METHOD = local
 PIUSVD_LICENSE = PROPERITARY
 
